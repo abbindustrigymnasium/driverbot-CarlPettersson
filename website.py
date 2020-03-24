@@ -15,6 +15,17 @@ while run:
 
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
+
+    if mouse[0] > display_width/2 - 300 and mouse[0] < display_width/2 - 100:
+        if mouse[1] > display_height/2 + 50 and mouse[1] < display_height/2 + 150:
+            if click[0] == True:
+                print("forward = True and Backward = False")
+
+    if mouse[0] > display_width/2 + 100 and mouse[0] < display_width/2 + 300:
+        if mouse[1] > display_height/2 + 50 and mouse[1] < display_height/2 + 150:
+            if click[0] == True:
+                print("forward = False and Backward = True")
+
     display.fill((255, 255, 255))
 
     pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 296, display_height/2 + 54, 200, 100))  
@@ -24,8 +35,8 @@ while run:
     pygame.draw.rect(display, (0, 255, 0), (display_width/2 - 300, display_height/2 + 50, 200, 100))
 
     green_button_text = pygame.font.SysFont('arial', 48)
-    text = green_button_text.render('backward', 1, (0,0,0))
-    display.blit(text, (display_width/2 - 295, display_height/2 + 70))
+    text = green_button_text.render('Forward', 1, (0,0,0))
+    display.blit(text, (display_width/2 - 275, display_height/2 + 70))
 
     pygame.draw.rect(display, (150, 0, 0), (display_width/2 + 96, display_height/2 + 54, 200, 100))  
     pygame.draw.rect(display, (150, 0, 0), (display_width/2 + 97, display_height/2 + 53, 200, 100))
@@ -34,7 +45,7 @@ while run:
     pygame.draw.rect(display, (255, 0, 0), (display_width/2 + 100, display_height/2 + 50, 200, 100))
 
     green_button_text = pygame.font.SysFont('arial', 48)
-    text = green_button_text.render('forward', 1, (0,0,0))
-    display.blit(text, (display_width/2 + 125, display_height/2 + 70))
+    text = green_button_text.render('Backward', 1, (0,0,0))
+    display.blit(text, (display_width/2 + 115, display_height/2 + 70))
 
     pygame.display.update()
