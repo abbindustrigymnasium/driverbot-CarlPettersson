@@ -6,6 +6,11 @@ koden är Joakims kod med ändringar till internet och liknande har inte riktigt
 
 
 loggbok:
-  jag har arbetat med att försöka få seervon att vrida sig. Så jag försöker bara att använda joakims kod för det än sålänge.
+
+  Dag 1
+  jag har arbetat med att försöka få seervon att vrida sig. Så jag försöker bara att använda joakims kod för det än sålänge. 
+  
+  Dag 2
+  
   
   
