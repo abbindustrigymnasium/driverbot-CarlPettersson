@@ -9,5 +9,8 @@ loggbok:
   Dag 2
   Skapat ett program med 2 knappar som heter 'forward' och 'backward' jag har också börjat med att skriva arduino kod.
   
+  Dag 3 
+  Har försökt att publisha messages till brokern med hjälp av paho mqtt.
+  
   
   
