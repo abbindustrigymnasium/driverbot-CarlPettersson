@@ -12,5 +12,8 @@ loggbok:
   Dag 3 
   Har försökt att publisha messages till brokern med hjälp av paho mqtt.
   
+  Dag 4
+  Har lyckats med att publisha medelanden från en "app" till mqtt brokern.
+  
   
   
