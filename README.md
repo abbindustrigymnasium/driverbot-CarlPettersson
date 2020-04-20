@@ -16,7 +16,7 @@ loggbok:
   Har lyckats med att publisha medelanden från en "app" till mqtt brokern.
   
   Dag 5
-  Publishar och tar emot enskilda medelanden.
+  Publishar och tar emot enskilda medelanden. Kan styras så att den kör framåt eller bakåt.
   
   
   
