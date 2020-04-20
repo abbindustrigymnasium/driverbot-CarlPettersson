@@ -15,5 +15,8 @@ loggbok:
   Dag 4
   Har lyckats med att publisha medelanden från en "app" till mqtt brokern.
   
+  Dag 5
+  Publishar och tar emot enskilda medelanden.
+  
   
   
