@@ -1,5 +1,5 @@
 #include "EspMQTTClient.h"
-//Install libraries PubSubClient and EspMQTTClient
+//Install libraries PubSubClient and EspMQTTClient   //inkluderar nödvändiga libraries
 #include <Servo.h>
 
 Servo servo;
@@ -11,7 +11,7 @@ EspMQTTClient client(
   "mwymdtnz",           // Wifi password
   "maqiatto.com",  // MQTT broker ip
   1883,             // MQTT broker port
-  "carl.pettersson@abbindustrigymnasium.se",            // MQTT username
+  "carl.pettersson@abbindustrigymnasium.se",            // MQTT username        Sätter och definerar alla värden
   "Snuten12",       // MQTT password
   "Microdatowwwr2311",          // Client name
   onConnectionEstablished, // Connection established callback
@@ -49,52 +49,39 @@ void drive(bool dir, int speed) {
   digitalWrite(motorPinRightDir, dir);
   analogWrite(motorPinRightSpeed, speed);
 }
-//bool writer=false;
-//char Info="";
    char Info='Y';
-   bool onetime=true;
 void onConnectionEstablished()
 {
 
-  client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", [] (const String & payload)
+  client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", [] (const String & payload) //subscribar till brokern
   {
- //   writer=true;
-     char info = payload.charAt(0);
+     char info = payload.charAt(0);   //kollar första symbolen på stringen som den hämtar från brokern
     Info=info;
-    int length = payload.length();
-    String value = payload.substring(1, length);
-    /*int speed = value.toInt();*/
-    onetime=true;
     Serial.println(payload);
 
-      int speed = 1024;
+      int speed = 1024;       //sätter hastigheten hjulen snurrar
       int dir = 0;
- if (Info == 'F' && onetime==true )
+ if (Info == 'F')   //om första symbolen == F så gör den det här
     {
-      onetime=false;
       bool dir = false;
-      client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "false");
+      client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "false");  //publishar false till brokern
       
-          digitalWrite(motorPinRightDir, 1);
+          digitalWrite(motorPinRightDir, 1);          //snurrar hjulen bakåt
           analogWrite(motorPinRightSpeed, speed);
-      Info='Y';
     }
-    else if (Info == 'T' && onetime==true)
+    else if (Info == 'T')    //om första symbolen == T så gör den det här
     {
-      onetime=false;
       bool dir = false;
-      client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "true");
+      client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "true");   //snurrar hjulen framåt publishar true till brokern
 
-          digitalWrite(motorPinRightDir, dir);
-          analogWrite(motorPinRightSpeed, speed);
-      Info='Y';
+          digitalWrite(motorPinRightDir, dir);  //sätter riktning den ska snurra
+          analogWrite(motorPinRightSpeed, speed);    //sätter hasighet hjulen ska snurra
     }
-    Info='Y';
 
   });
 
   client.executeDelayed(5 * 1000, []() {
-    client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "his is a message sent 5 seconds later");
+    client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "his is a message sent 5 seconds later");  //skickar det här medelandet efter 5 sekunder
   });
 }
 void loop() {
