@@ -51,7 +51,7 @@ while run:
                 client.connect(broker, port=1883)
                 client.loop_start()
                 client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)
-                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "True")
+                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "T", 0)
 
                 # time.sleep(4)
                 client.loop_stop()
@@ -72,7 +72,7 @@ while run:
                 client.connect(broker, port=1883)
                 client.loop_start()
                 client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)
-                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "False")
+                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "F", 0)
 
                 # time.sleep(4)
                 client.loop_stop()
