@@ -1,4 +1,8 @@
 #include "EspMQTTClient.h"
+//Install libraries PubSubClient and EspMQTTClient
+#include <Servo.h>
+
+Servo servo;
 
 void onConnectionEstablished();
 
@@ -9,8 +13,83 @@ EspMQTTClient client(
   1883,             // MQTT broker port
   "carl.pettersson@abbindustrigymnasium.se",            // MQTT username
   "Snuten12",       // MQTT password
-  "",          // Client name
+  "Microdatowwwr2311",          // Client name
   onConnectionEstablished, // Connection established callback
   true,             // Enable web updater
   true              // Enable debug messages
 );
+
+
+#define motorPinRightDir  0//D2
+#define motorPinRightSpeed 5//D1
+
+#define motorPinLeftDir 2
+#define motorPinLeftSpeed 4
+
+void setup() {
+  servo.attach(14); //D5
+  pinMode(motorPinRightDir, OUTPUT);
+  pinMode(motorPinRightSpeed, OUTPUT);
+  pinMode(motorPinLeftDir, OUTPUT);
+  pinMode(motorPinLeftSpeed, OUTPUT);
+
+  Serial.begin(115200);
+}
+
+bool off = false;
+
+void drive(bool dir, int speed) {
+  //Om du vill åka rakt fram eller bak
+  servo.write(90);
+  
+  Serial.println(speed);
+  digitalWrite(motorPinLeftDir, dir);
+  analogWrite(motorPinLeftSpeed, speed);
+
+  digitalWrite(motorPinRightDir, dir);
+  analogWrite(motorPinRightSpeed, speed);
+}
+//bool writer=false;
+//char Info="";
+   char Info='Y';
+   bool onetime=true;
+void onConnectionEstablished()
+{
+
+  client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", [] (const String & payload)
+  {
+ //   writer=true;
+     char info = payload.charAt(0);
+    Info=info;
+    int length = payload.length();
+    String value = payload.substring(1, length);
+    int speed = value.toInt();
+    onetime=true;
+    Serial.println(payload);
+ if (Info == 'F' && onetime==true )
+    {
+      onetime=false;
+      bool dir = false;
+      client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "false");
+      Info='Y';
+    }
+    else if (Info == 'T' && onetime==true)
+    {
+      onetime=false;
+      bool dir = false;
+      client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "true");
+      Info='Y';
+    }
+    Info='Y';
+
+  });
+
+  client.executeDelayed(5 * 1000, []() {
+    client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "his is a message sent 5 seconds later");
+  });
+}
+void loop() {
+
+  // put your main code here, to run repeatedly:
+  client.loop();
+}
