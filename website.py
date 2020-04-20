@@ -1,19 +1,19 @@
-import pygame
+import pygame               #importerar nödvändiga delar
 pygame.init()
 
 import paho.mqtt.client as mqtt
 import time
 
-display_width = 1100
+display_width = 1100                #sätter hur bred/hög skärmen är
 display_height = 600
-display = pygame.display.set_mode((display_width, display_height))
+display = pygame.display.set_mode((display_width, display_height))  #skapar skärmen
 
 def on_log(client, userdata, level, buf):
     print("log: " + buf)
 
 def on_connect (client, userdata, flags, rc):
     if rc == 0:
-        print("connected OK")
+        print("connected OK")                           #definerar dem här sakerna
     else:
         print("bad connection returned code=", rc)
 
@@ -24,8 +24,8 @@ def draw(Direction):
     display.fill((255, 255, 255))
 
     pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 296, display_height/2 - 54, 200, 100))  
-    pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 297, display_height/2 - 53, 200, 100))
-    pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 298, display_height/2 - 52, 200, 100))
+    pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 297, display_height/2 - 53, 200, 100)) # ritar buttons och gör bakgrunden vit
+    pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 298, display_height/2 - 52, 200, 100)) # ritar också texten
     pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 299, display_height/2 - 51, 200, 100))
     pygame.draw.rect(display, (0, 255, 0), (display_width/2 - 300, display_height/2 - 50, 200, 100))
 
@@ -50,7 +50,7 @@ def draw(Direction):
 
 port = 8883
 broker = "maqiatto.com"
-client =mqtt.Client("py1")
+client =mqtt.Client("py1")      #username password och sånt
 MQTT_USERNAME  = "carl.pettersson@abbindustrigymnasium.se"
 MQTT_PASSWORD  = "Snuten12"
 
@@ -58,44 +58,44 @@ MQTT_PASSWORD  = "Snuten12"
 run = True
 
 if run == True:
-    Direction = "null"
+    Direction = "null"  #vad som står på direction
     draw(Direction)
 
 while run:
-    for event in pygame.event.get():  
+    for event in pygame.event.get():  #gör så att man kan stänga programmet
         if event.type == pygame.QUIT:
             run = False
 
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
+    mouse = pygame.mouse.get_pos()   #får mus positionen
+    click = pygame.mouse.get_pressed() #gör så att man vet om musen är tryckt och vilken knapp man tryckte
 
     if mouse[0] > display_width/2 - 300 and mouse[0] < display_width/2 - 100:
         if mouse[1] > display_height/2 - 50 and mouse[1] < display_height/2 + 50:
             if click[0] == True:
-                print("forward = True")
-                Direction = "forward"
-                draw(Direction)
+                print("forward = True")   #gör så att om musen trycker på en "knapp" så kommer Direction säga forward
+                Direction = "forward"  #och hjulen på bilen kommer börja snurra framåt. 
+                draw(Direction)    
 
                 client.on_connect=on_connect
                 client.on_disconnect=on_disconnect
-                client.on_log=on_log
+                client.on_log=on_log                    #Loggar vad som skickas och liknande.
                 client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
 
                 print("connecting to broker ", broker, )
 
-                client.connect(broker, port=1883)
+                client.connect(broker, port=1883)  #connectar till broker
                 client.loop_start()
-                client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)
-                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "T", 0)
+                client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)        #subscribar till en topic
+                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "T", 0)   #publishar T till broker
 
                 client.loop_stop()
-                client.disconnect()
+                client.disconnect()    #disconnectar till broker
 
     if mouse[0] > display_width/2 + 100 and mouse[0] < display_width/2 + 300:
-        if mouse[1] > display_height/2 - 50 and mouse[1] < display_height/2 + 50:
+        if mouse[1] > display_height/2 - 50 and mouse[1] < display_height/2 + 50:   #"knappen" area
             if click[0] == True:
                 print("forward = False")
-                Direction = "backward"
+                Direction = "backward"          #samma som över men backwards
                 draw(Direction)
 
                 client.on_connect=on_connect
