@@ -20,64 +20,7 @@ def on_connect (client, userdata, flags, rc):
 def on_disconnect(client, userdata, flags, rc=0):
     print("DisConnected result code " + str(rc))
 
-port = 8883
-broker = "maqiatto.com"
-client =mqtt.Client("py1")
-MQTT_USERNAME  = "carl.pettersson@abbindustrigymnasium.se"
-MQTT_PASSWORD  = "Snuten12"
-
-run = True
-
-while run:
-    for event in pygame.event.get():  
-        if event.type == pygame.QUIT:
-            run = False
-
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-
-    if mouse[0] > display_width/2 - 300 and mouse[0] < display_width/2 - 100:
-        if mouse[1] > display_height/2 - 50 and mouse[1] < display_height/2 + 50:
-            if click[0] == True:
-                print("forward = True")
-
-                client.on_connect=on_connect
-                client.on_disconnect=on_disconnect
-                client.on_log=on_log
-                client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
-
-                print("connecting to broker ", broker, )
-
-                client.connect(broker, port=1883)
-                client.loop_start()
-                client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)
-                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "T", 0)
-
-                # time.sleep(4)
-                client.loop_stop()
-                client.disconnect()
-
-    if mouse[0] > display_width/2 + 100 and mouse[0] < display_width/2 + 300:
-        if mouse[1] > display_height/2 - 50 and mouse[1] < display_height/2 + 50:
-            if click[0] == True:
-                print("forward = False")
-
-                client.on_connect=on_connect
-                client.on_disconnect=on_disconnect
-                client.on_log=on_log
-                client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
-
-                print("connecting to broker ", broker, )
-
-                client.connect(broker, port=1883)
-                client.loop_start()
-                client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)
-                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "F", 0)
-
-                # time.sleep(4)
-                client.loop_stop()
-                client.disconnect()
-
+def draw(Direction):
     display.fill((255, 255, 255))
 
     pygame.draw.rect(display, (0, 150, 0), (display_width/2 - 296, display_height/2 - 54, 200, 100))  
@@ -100,4 +43,72 @@ while run:
     text = green_button_text.render('Backward', 1, (0,0,0))
     display.blit(text, (display_width/2 + 115, display_height/2 + 70))
 
+    green_button_text = pygame.font.SysFont('arial', 48)
+    text = green_button_text.render('Direction: ' + Direction, 1, (0,0,0))
+    display.blit(text, (20, 20))
     pygame.display.update()
+
+port = 8883
+broker = "maqiatto.com"
+client =mqtt.Client("py1")
+MQTT_USERNAME  = "carl.pettersson@abbindustrigymnasium.se"
+MQTT_PASSWORD  = "Snuten12"
+
+
+run = True
+
+if run == True:
+    Direction = "null"
+    draw(Direction)
+
+while run:
+    for event in pygame.event.get():  
+        if event.type == pygame.QUIT:
+            run = False
+
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if mouse[0] > display_width/2 - 300 and mouse[0] < display_width/2 - 100:
+        if mouse[1] > display_height/2 - 50 and mouse[1] < display_height/2 + 50:
+            if click[0] == True:
+                print("forward = True")
+                Direction = "forward"
+                draw(Direction)
+
+                client.on_connect=on_connect
+                client.on_disconnect=on_disconnect
+                client.on_log=on_log
+                client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
+
+                print("connecting to broker ", broker, )
+
+                client.connect(broker, port=1883)
+                client.loop_start()
+                client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)
+                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "T", 0)
+
+                client.loop_stop()
+                client.disconnect()
+
+    if mouse[0] > display_width/2 + 100 and mouse[0] < display_width/2 + 300:
+        if mouse[1] > display_height/2 - 50 and mouse[1] < display_height/2 + 50:
+            if click[0] == True:
+                print("forward = False")
+                Direction = "backward"
+                draw(Direction)
+
+                client.on_connect=on_connect
+                client.on_disconnect=on_disconnect
+                client.on_log=on_log
+                client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
+
+                print("connecting to broker ", broker, )
+
+                client.connect(broker, port=1883)
+                client.loop_start()
+                client.subscribe("carl.pettersson@abbindustrigymnasium.se/drive", 1)
+                client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "F", 0)
+
+                client.loop_stop()
+                client.disconnect()
