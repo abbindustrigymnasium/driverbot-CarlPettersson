@@ -63,14 +63,20 @@ void onConnectionEstablished()
     Info=info;
     int length = payload.length();
     String value = payload.substring(1, length);
-    int speed = value.toInt();
+    /*int speed = value.toInt();*/
     onetime=true;
     Serial.println(payload);
+
+      int speed = 1024;
+      int dir = 0;
  if (Info == 'F' && onetime==true )
     {
       onetime=false;
       bool dir = false;
       client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "false");
+      
+          digitalWrite(motorPinRightDir, 1);
+          analogWrite(motorPinRightSpeed, speed);
       Info='Y';
     }
     else if (Info == 'T' && onetime==true)
@@ -78,6 +84,9 @@ void onConnectionEstablished()
       onetime=false;
       bool dir = false;
       client.publish("carl.pettersson@abbindustrigymnasium.se/drive", "true");
+
+          digitalWrite(motorPinRightDir, dir);
+          analogWrite(motorPinRightSpeed, speed);
       Info='Y';
     }
     Info='Y';
