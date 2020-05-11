@@ -1,7 +1,6 @@
 #include "EspMQTTClient.h"
 //Install libraries PubSubClient and EspMQTTClient   //inkluderar nödvändiga libraries
 #include <Servo.h>
-
 Servo servo;
 
 void onConnectionEstablished();
@@ -34,6 +33,7 @@ void setup() {
   pinMode(motorPinLeftSpeed, OUTPUT);
 
   Serial.begin(115200);
+  servo.write(0);
 }
 
 bool off = false;
@@ -77,7 +77,19 @@ void onConnectionEstablished()
           digitalWrite(motorPinRightDir, dir);  //sätter riktning den ska snurra
           analogWrite(motorPinRightSpeed, speed);    //sätter hasighet hjulen ska snurra
     }
-
+ if (Info == 'R')
+ {
+  servo.write(180);
+  }
+  else if (Info == 'L')
+  {
+    servo.write(0);
+    }
+ if (Info == 'S')
+  {
+    servo.write(90);
+    }
+  
   });
 
   client.executeDelayed(5 * 1000, []() {
