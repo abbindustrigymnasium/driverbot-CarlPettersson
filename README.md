@@ -18,5 +18,7 @@ loggbok:
   Dag 5: 
   Publishar och tar emot enskilda medelanden. Kan styras så att den kör framåt eller bakåt. Visar uppe i högra hörnet om den kör framåt eller bakåt. Kommenterat kod på python och arduino.
   
+  Dag 6: 
+  Kan styra servo med knappar och/eller a, d och spacebar och styra frammåt eller bakåt med hjälp av w och s.
   
   
